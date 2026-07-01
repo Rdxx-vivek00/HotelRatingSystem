@@ -48,14 +48,14 @@ public class UserServiceImpl implements UserService {
 //          fetch rating of the above user from rating service
 //    localhost:8083/ratings/users/e16fcece-ae42-4907-a3e6-13a458566a57
 
-         Rating[] ratingsOfUser=restTemplate.getForObject("http://localhost:8083/ratings/users/"+user.getUserId(), Rating[].class);
+         Rating[] ratingsOfUser=restTemplate.getForObject("http://RATING-SERVICE/ratings/users/"+user.getUserId(), Rating[].class);
         log.info("{} ",ratingsOfUser);
         List<Rating> ratings= Arrays.stream(ratingsOfUser).toList();
 
        List<Rating> ratingList= ratings.stream().map(rating -> {
             //api call to hotel service to get the hotel
            //http://localhost:8082/hotels/2f654521-92ae-4163-b419-94434ceed06a
-        ResponseEntity<Hotel> forEntity=restTemplate.getForEntity("http://localhost:8082/hotels/"+rating.getHotelId(), Hotel.class);
+        ResponseEntity<Hotel> forEntity=restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/"+rating.getHotelId(), Hotel.class);
         Hotel hotel= forEntity.getBody();
         log.info("response status code :",forEntity.getStatusCode());
             //set the hotel to rating
